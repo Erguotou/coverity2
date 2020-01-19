@@ -1,5 +1,5 @@
 language: c
-script: make -C Debug
+#script: make -C Debug
 
 env:
   global:
