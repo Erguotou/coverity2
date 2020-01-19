@@ -16,6 +16,6 @@ addons:
       name: "Erguotou/coverity2"
       description: "Coverity playground"
     notification_email: jeromeliang@hotmail.com
-    build_command_prepend: ""
+    build_command_prepend: "make -C Debug"
     build_command: "make -C Debug"
     branch_pattern: master
