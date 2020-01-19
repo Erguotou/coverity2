@@ -14,7 +14,7 @@ addons:
   coverity_scan:
     project:
       name: "Erguotou/coverity2"
-      description: "<Your project description here>"
+      description: "Coverity playground"
     notification_email: jeromeliang@hotmail.com
     build_command_prepend: ""
     build_command: "make -C Debug"
