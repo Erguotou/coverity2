@@ -63,13 +63,19 @@ void uuid_unparse(const uuid_t uu, char *out)
 void readTest(uint32_t *otpIdHi, uint32_t *otpIdLo ) {
   int fd = open("test.bin", O_RDONLY);
   if (fd == -1) return;
+
   uint32_t id[2];
   size_t size = read(fd, (void*) id, sizeof(id));
   if (size != sizeof(id)) goto error;
 
+  uint32_t id2[2];
+  size_t readSize = read(fd, (void*) id2, sizeof(id2));
+  if (readSize != sizeof(id))
+
   printf("%d, %d\n", id[0], id[1]);
-  *otpIdHi = ntohl(id[0]);
-  *otpIdLo = ntohl(id[1]);
+  *otpIdHi = ntohl(id2[0]);
+  *otpIdLo = ntohl(id2[1]);
+
   error:
   close(fd);
 }
