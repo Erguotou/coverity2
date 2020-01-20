@@ -80,7 +80,7 @@ void curlTest() {
   if (curl == NULL) return;
   curl_mem_t apiTokenKey;
   memset(&apiTokenKey, 0, sizeof(curl_mem_t));
-//  curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &apiTokenKey);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &apiTokenKey);
   curl_easy_cleanup(curl);
   curl_global_cleanup();
 }
