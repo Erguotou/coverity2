@@ -73,6 +73,7 @@ int main(void) {
 
   uuid_t uu;
   char usn[37];
+  memset(usn, 0, sizeof(usn));
   uuid_unparse(uu, usn);
   strncpy(usn, "abcd", 4);
 
