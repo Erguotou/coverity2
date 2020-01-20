@@ -64,6 +64,9 @@ void readTest(uint32_t *otpIdHi, uint32_t *otpIdLo ) {
   int fd = open("test.bin", O_RDONLY);
   if (fd == -1) return;
 
+  size_t s = read(fd, (void*) otpIdHi, sizeof(uint32_t));
+  if (s != sizeof(uint32_t)) goto error;
+
   uint32_t id[2];
   size_t size = read(fd, (void*) id, sizeof(id));
   if (size != sizeof(id)) goto error;
