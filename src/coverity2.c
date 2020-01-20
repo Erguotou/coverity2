@@ -75,13 +75,21 @@ typedef struct _curl_memory_t {
   curl_off_t position;
 } curl_mem_t;
 
+#define curl_easy_setopt_for_coverity(curl, opt, data) \
+{\
+  void* cov = data; \
+  curl_easy_setopt(curl, opt, cov); \
+}
+
 void curlTest() {
   CURL *curl = curl_easy_init();
   if (curl == NULL) return;
   curl_mem_t apiTokenKey;
   memset(&apiTokenKey, 0, sizeof(curl_mem_t));
-  void* cov = &apiTokenKey;
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, cov);
+  curl_easy_setopt_for_coverity(curl, CURLOPT_WRITEDATA, (void*) &apiTokenKey);
+  curl_mem_t apiToken;
+  memset(&apiToken, 0, sizeof(curl_mem_t));
+  curl_easy_setopt_for_coverity(curl, CURLOPT_WRITEDATA, (void*) &apiToken);
   curl_easy_cleanup(curl);
   curl_global_cleanup();
 }
