@@ -64,11 +64,13 @@ void readTest(uint32_t *otpIdHi, uint32_t *otpIdLo ) {
   int fd = open("test.bin", O_RDONLY);
   if (fd == -1) return;
   uint32_t id[2];
-  size_t size = read(fd, (void*) id, 8);
-  if (size == 8)
-    printf("%d, %d\n", id[0], id[1]);
+  size_t size = read(fd, (void*) id, sizeof(id));
+  if (size != sizeof(id)) goto error;
+
+  printf("%d, %d\n", id[0], id[1]);
   *otpIdHi = ntohl(id[0]);
   *otpIdLo = ntohl(id[1]);
+  error:
   close(fd);
 }
 
