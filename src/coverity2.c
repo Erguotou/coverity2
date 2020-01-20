@@ -79,8 +79,8 @@ void curlTest() {
   CURL *curl = curl_easy_init();
   if (curl == NULL) return;
   curl_mem_t apiTokenKey;
-  memset(&apiTokenKey, 0, sizeof(apiTokenKey));
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &apiTokenKey);
+  memset(&apiTokenKey, 0, sizeof(curl_mem_t));
+//  curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &apiTokenKey);
   curl_easy_cleanup(curl);
   curl_global_cleanup();
 }
