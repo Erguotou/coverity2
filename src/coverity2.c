@@ -7,12 +7,12 @@
 
 void readTest() {
   int fd = open("test.bin", O_RDONLY);
+  if (fd == -1) return;
   uint32_t id[2];
   size_t size = read(fd, (void*) id, sizeof(id));
   if (size == sizeof(id))
     printf("%d, %d\n", id[0], id[1]);
-  if (fd != -1)
-      close(fd);
+  close(fd);
 }
 
 int main(void) {
