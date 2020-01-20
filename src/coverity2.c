@@ -60,9 +60,7 @@ void uuid_unparse(const uuid_t uu, char *out)
   uuid_unparse_x(uu, out, fmt_lower);
 }
 
-void readTest() {
-  uint32_t *otpIdHi = NULL, *otpIdLo = NULL;
-
+void readTest(uint32_t *otpIdHi, uint32_t *otpIdLo ) {
   int fd = open("test.bin", O_RDONLY);
   if (fd == -1) return;
   uint32_t id[2];
@@ -100,7 +98,9 @@ void curlTest() {
 }
 
 int main(void) {
-  readTest();
+  uint32_t hi, lo;
+  readTest(&hi, &lo);
+
   curlTest();
 
   uuid_t uu;
