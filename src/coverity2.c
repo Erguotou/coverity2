@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
+#include <curl/curl.h>
 
 typedef unsigned char uuid_t[16];
 struct uuid {
@@ -68,8 +69,25 @@ void readTest() {
   close(fd);
 }
 
+typedef struct _curl_memory_t {
+  uint8_t *memory;
+  curl_off_t size;
+  curl_off_t position;
+} curl_mem_t;
+
+void curlTest() {
+  CURL *curl = curl_easy_init();
+  if (curl == NULL) return;
+  curl_mem_t apiTokenKey;
+  memset(&apiTokenKey, 0, sizeof(curl_mem_t));
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &apiTokenKey);
+  curl_easy_cleanup(curl);
+  curl_global_cleanup();
+}
+
 int main(void) {
   readTest();
+  curlTest();
 
   uuid_t uu;
   char usn[37];
