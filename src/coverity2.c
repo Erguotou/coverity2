@@ -112,8 +112,9 @@ int main(void) {
   strncpy(usn, "abcd", 4);
 
   char *license = (char*) malloc(256);
+  if (!license) return EXIT_FAILURE;
   license = (char*) realloc(license, sizeof(license) + 256);
-  free(license);
+  if (license) free(license);
 
 	FILE *fd = fopen("test.bin", "rb");
 	int id[2];
