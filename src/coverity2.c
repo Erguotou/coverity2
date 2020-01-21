@@ -111,6 +111,10 @@ int main(void) {
   uuid_unparse(uu, usn);
   strncpy(usn, "abcd", 4);
 
+  char *license = (char*) malloc(256);
+  license = (char*) realloc(license, sizeof(license) + 256);
+  free(license);
+
 	FILE *fd = fopen("test.bin", "rb");
 	int id[2];
 	size_t size = fread((void*) id, sizeof(int), 2, fd);
