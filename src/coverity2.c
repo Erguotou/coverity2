@@ -64,20 +64,13 @@ void readTest(uint32_t *otpIdHi, uint32_t *otpIdLo ) {
   int fd = open("test.bin", O_RDONLY);
   if (fd == -1) return;
 
-  size_t s = read(fd, (void*) otpIdHi, sizeof(uint32_t));
-  if (s != sizeof(uint32_t)) goto error;
-
   uint32_t id[2];
   size_t size = read(fd, (void*) id, sizeof(id));
   if (size != sizeof(id)) goto error;
 
-  uint32_t id2[2];
-  size_t readSize = read(fd, (void*) id2, sizeof(id2));
-  if (readSize != sizeof(id))
-
   printf("%d, %d\n", id[0], id[1]);
-  *otpIdHi = ntohl(id2[0]);
-  *otpIdLo = ntohl(id2[1]);
+  *otpIdHi = ntohl(id[0]);
+  *otpIdLo = ntohl(id[1]);
 
   error:
   close(fd);
@@ -89,10 +82,8 @@ typedef struct _curl_memory_t {
   curl_off_t position;
 } curl_mem_t;
 
-#define curl_easy_setopt_for_coverity(curl, opt, data) \
-{\
-  void* cov = data; \
-  curl_easy_setopt(curl, opt, cov); \
+static void* coverity_cast(void *ptr) {
+  return ptr;
 }
 
 void curlTest() {
@@ -100,10 +91,10 @@ void curlTest() {
   if (curl == NULL) return;
   curl_mem_t apiTokenKey;
   memset(&apiTokenKey, 0, sizeof(curl_mem_t));
-  curl_easy_setopt_for_coverity(curl, CURLOPT_WRITEDATA, (void*) &apiTokenKey);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, coverity_cast(&apiTokenKey));
   curl_mem_t apiToken;
   memset(&apiToken, 0, sizeof(curl_mem_t));
-  curl_easy_setopt_for_coverity(curl, CURLOPT_WRITEDATA, (void*) &apiToken);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, coverity_cast(&apiToken));
   curl_easy_cleanup(curl);
   curl_global_cleanup();
 }
